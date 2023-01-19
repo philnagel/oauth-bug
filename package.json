@@ -1,0 +1,27 @@
+{
+  "name": "oauth-bug",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vue-tsc && vite build",
+    "preview": "vite preview",
+    "link-esri": "ln -s ~/git_repos/arcgis-rest-js/packages/arcgis-rest-request node_modules/@esri/arcgis-rest-request && ln -s ~/git_repos/arcgis-rest-js/packages/arcgis-rest-fetch node_modules/@esri/arcgis-rest-fetch && ln -s ~/git_repos/arcgis-rest-js/packages/arcgis-rest-form-data node_modules/@esri/arcgis-rest-form-data"
+  },
+  "dependencies": {
+    "@esri/arcgis-rest-auth": "^4.0.2",
+    "vue": "^3.2.45",
+    "vue-router": "^4.1.6"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^4.0.0",
+    "typescript": "^4.9.3",
+    "vite": "^4.0.0",
+    "vue-tsc": "^1.0.11"
+  },
+  "volta": {
+    "node": "16.13.0",
+    "npm": "8.1.2"
+  }
+}
