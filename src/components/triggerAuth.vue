@@ -2,8 +2,9 @@
 import { ArcGISIdentityManager } from '@esri/arcgis-rest-request';
 import { useRouter } from 'vue-router';
 import { redirectUri } from '../router'
+import { ref } from 'vue';
 
-
+const currentResult = ref<string>('No login attempted yet')
 const initiateLogin = async () => {
     const clientId = import.meta.env.VITE_CLIENTID
 
@@ -12,8 +13,9 @@ const initiateLogin = async () => {
         redirectUri,
         clientId
     })
-    console.log(session)
+    currentResult.value = `Logged in as ${session?.username}`
     } catch (e) {
+        currentResult.value = `OAuth Error: ${e}`
         console.error(e)
     }
 }
@@ -21,4 +23,6 @@ const initiateLogin = async () => {
 </script>
 <template>
 <button @click="initiateLogin">Login</button>
+<br>
+{{ currentResult }}
 </template>

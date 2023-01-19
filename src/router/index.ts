@@ -19,7 +19,7 @@ export const authRoute: RouteRecordRaw = {
 const routes: RouteRecordRaw[] = [homeRoute, authRoute];
 
 export const router = createRouter({
-  history: createWebHashHistory(),
+  history: createWebHistory(),
   routes,
 });
 
