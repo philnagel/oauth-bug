@@ -1,18 +1,28 @@
-# Vue 3 + TypeScript + Vite
+# Reproduce arcgis-rest-js OAUTH2 bug
 
-This template should help get you started developing with Vue 3 and TypeScript in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
+This repo serves to demonstrate a bug in the `@esri/arcgis-rest-request` module when using the browser-based OAUTH2 flow on a site using `#` based URLs, for example `VueJS` with `vue-router` in hash history mode.
 
-## Recommended IDE Setup
+To reproduce, clone this repo and then:
 
-- [VS Code](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin).
+`npm install`
 
-## Type Support For `.vue` Imports in TS
+edit the file `.env` to add your `clientID`. Add the relevant URL to the allowed `redirectUri` list for the app, for example `http://127.0.0.1:5173/authenticate` and `http://127.0.0.1:5173/#/authenticate`
+(the `authenticate` route is fixed, adjust the IP and port as needed).
 
-TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin) to make the TypeScript language service aware of `.vue` types.
+Observe that the OAUTH2 flow works fine in the default configuration (no errors shown in console).
 
-If the standalone TypeScript plugin doesn't feel fast enough to you, Volar has also implemented a [Take Over Mode](https://github.com/johnsoncodehk/volar/discussions/471#discussioncomment-1361669) that is more performant. You can enable it by the following steps:
+Now, edit the file `src/router/index.ts` and change the following from:
 
-1. Disable the built-in TypeScript Extension
-   1. Run `Extensions: Show Built-in Extensions` from VSCode's command palette
-   2. Find `TypeScript and JavaScript Language Features`, right click and select `Disable (Workspace)`
-2. Reload the VSCode window by running `Developer: Reload Window` from the command palette.
+    export  const  router = createRouter({
+    history:  createWebHistory(),
+    routes,
+    });
+
+to:
+
+    export  const  router = createRouter({
+    history:  createWebHashHistory(),
+    routes,
+    });
+This changes the `vue-router` to use hash-based routing instead of normal HTML5 routing mode. This is needed in some cases where the hosting web server for an app cannot be configured to handle the routing for SPA apps.
+Now, when going through the OAUTH2 flow, an error will be returned, even though the authentication succeeds on the AGOL side.
