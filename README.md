@@ -9,6 +9,9 @@ To reproduce, clone this repo and then:
 edit the file `.env` to add your `clientID`. Add the relevant URL to the allowed `redirectUri` list for the app, for example `http://127.0.0.1:5173/authenticate` and `http://127.0.0.1:5173/#/authenticate`
 (the `authenticate` route is fixed, adjust the IP and port as needed).
 
+Start the dev server:
+`npm run dev`
+
 Observe that the OAUTH2 flow works fine in the default configuration (no errors shown in console).
 
 Now, edit the file `src/router/index.ts` and change the following from:
